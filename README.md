@@ -4,7 +4,7 @@
 
 ░▒▓█►◄█▓▒░  
 
-## 🚀 Quick Start  
+##  Quick Start  
 ```bash
 # Clone the repository
 git clone https://github.com/blocfort/gh-boardtools.git
@@ -15,8 +15,8 @@ open tools/pr-generator.html   # PR Builder
 open tools/board-exporter.html # Board → CSV
 ```
 
-## 🔥 BlocFort Edge  
-### 🧩 Core Features  
+##  
+### Core Features  
 | Tool               | Description                          |  
 |--------------------|--------------------------------------|  
 | **PR Generator**   | Rule-based pull request templates    |  
@@ -48,7 +48,7 @@ open tools/pr-generator.html?debug=1
 
 ░▒▓█►◄█▓▒░  
 
-## 🖼️ How It Works  
+##  How It Works  
 ![Architecture](./assets/flow.svg)  
 ```mermaid
 graph TD
@@ -58,7 +58,7 @@ graph TD
   C --> E[PR Description]
 ```
 
-## 📋 Usage Examples  
+##  Usage Examples  
 ### 1. PR Generator  
 ```html
 <!-- Input Form -->
@@ -76,7 +76,7 @@ Fixed auth timeout
 "Fix login bug","In Progress","2023-11-20"
 ```
 
-## 🧰 Tech Stack  
+##  Tech Stack  
 | Component       | Implementation           |  
 |-----------------|--------------------------|  
 | Core            | Vanilla JS + HTML5       |  
@@ -85,7 +85,7 @@ Fixed auth timeout
 
 ░▒▓█►◄█▓▒░  
 
-## 📜 License  
+##  License  
 MIT License - [View ./LICENSE](./LICENSE)  
 
-<sub>📦 Size: 412KB | 🔄 Updated: ${new Date().toISOString().split('T')[0]}</sub>
+<sub> Size: 412KB |  Updated: ${new Date().toISOString().split('T')[0]}</sub>
