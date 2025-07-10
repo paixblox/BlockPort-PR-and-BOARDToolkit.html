@@ -1,4 +1,4 @@
-# 🛠️ BlocFort GitHub Toolkit  
+#  BlocFort GitHub Toolkit  
 ![BlocFort](./assets/blocfort-badge.svg)  
 *Deterministic tools for GitHub workflows: Board exports + PR templates—no black-box AI.*  
 
@@ -29,9 +29,9 @@ open tools/board-exporter.html # Board → CSV
 + Orange-branded UI (#f97316 accents)
 ```
 
-### 💎 Advanced Use  
+###  Advanced Use  
 <details>
-<summary>✨ Template Customization</summary>
+<summary> Template Customization</summary>
 1. **Save Your Presets**  
 ```javascript
 // Save to browser storage
