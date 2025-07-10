@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlocFort GitHub Toolkit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #3b82f6;
+            --primary-blue-dark: #2563eb;
+            --blocfort-orange: #f97316;
+            --blocfort-orange-light: #fb923c;
+            --bg-light: #f8fafc;
+            --bg-light-accent: #f1f5f9;
+            --border-color: #e2e8f0;
+            --border-radius: 12px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            background: var(--bg-light);
+            color: #1e293b;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary-blue), var(--blocfort-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+        }
+
+        .tabs-container {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #64748b;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            transition: var(--transition);
+            position: relative;
+            background: var(--bg-light-accent);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+        }
+
+        .tab:hover {
+            color: #334155;
+            background: white;
+        }
+
+        .tab.active {
+            color: white;
+            background: var(--blocfort-orange);
+            border-color: var(--blocfort-orange);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-indicator {
+            position: absolute;
+            height: 3px;
+            background: var(--blocfort-orange);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background: var(--primary-blue-dark);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: white;
+            color: var(--primary-blue);
+            border: 1px solid var(--border-color);
+        }
+
+        button.secondary:hover {
+            background: var(--bg-light-accent);
+        }
+
+        .output-container {
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        pre {
+            background: var(--bg-light-accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border-left: 4px solid var(--blocfort-orange);
+            white-space: pre-wrap;
+            font-family: 'Menlo', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+        }
+
+        .copy-btn:hover {
+            background: white;
+        }
+
+        .instructions {
+            background: var(--bg-light-accent);
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .instructions ol {
+            padding-left: 1.5rem;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 4px solid rgba(59, 130, 246, 0.1);
+            border-top-color: var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: #10b981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 640px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>BlocFort GitHub Toolkit</h1>
+    
+    <div class="tabs-container">
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('pr-generator')">PR Generator</div>
+            <div class="tab" onclick="switchTab('board-exporter')">Board Exporter</div>
+            <div class="tab-indicator" style="width: 120px; left: 16px;"></div>
+        </div>
+        
+        <!-- PR Generator Tab -->
+        <div id="pr-generator" class="tab-content active">
+            <div class="form-group">
+                <label for="changes">Changes Made</label>
+                <textarea id="changes" placeholder="Describe what you changed and why..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="testing">Testing Steps</label>
+                <textarea id="testing" placeholder="How should this be tested? Be specific..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="issues">Related Issues (optional)</label>
+                <input type="text" id="issues" placeholder="#123, #456">
+            </div>
+            
+            <button onclick="generatePR()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Generate PR Description
+            </button>
+            
+            <div class="output-container">
+                <label>Generated Output:</label>
+                <pre id="pr-output">(Your PR description will appear here)</pre>
+                <button class="copy-btn secondary" onclick="copyToClipboard('pr-output')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy
+                </button>
+            </div>
+        </div>
+        
+        <!-- Project Board Exporter Tab -->
+        <div id="board-exporter" class="tab-content">
+            <div class="form-group">
+                <label for="board-url">GitHub Project Board URL</label>
+                <input type="text" id="board-url" placeholder="https://github.com/orgs/myorg/projects/1">
+            </div>
+            
+            <button onclick="fetchBoardData()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path>
+                    <polyline points="16 1 23 1 23 8"></polyline>
+                    <line x1="16" y1="8" x2="23" y2="1"></line>
+                </svg>
+                Export to CSV
+            </button>
+            
+            <div class="instructions">
+                <h3>How to use:</h3>
+                <ol>
+                    <li>Navigate to your GitHub Project Board</li>
+                    <li>Copy the URL from your browser's address bar</li>
+                    <li>Paste above and click "Export to CSV"</li>
+                    <li>Open the generated file in Excel/Sheets</li>
+                </ol>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Fetching project data...</p>
+            </div>
+            
+            <div id="csv-output" style="margin-top: 2rem;"></div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script>
+        // Tab switching with indicator animation
+        function switchTab(tabId) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Move indicator
+            const indicator = document.querySelector('.tab-indicator');
+            const tabRect = event.currentTarget.getBoundingClientRect();
+            const containerRect = document.querySelector('.tabs-container').getBoundingClientRect();
+            
+            indicator.style.width = `${tabRect.width}px`;
+            indicator.style.left = `${tabRect.left - containerRect.left}px`;
+            
+            // Show correct content
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        }
+        
+        // PR Generator
+        function generatePR() {
+            const changes = document.getElementById('changes').value;
+            const testing = document.getElementById('testing').value;
+            const issues = document.getElementById('issues').value;
+            
+            let output = `## Changes\n${changes || "[describe changes here]"}\n\n## Testing Steps\n${testing || "[describe testing steps here]"}`;
+            if (issues) output += `\n\n## Related Issues\n${issues}`;
+            
+            document.getElementById('pr-output').textContent = output;
+        }
+        
+        // Copy to clipboard with toast notification
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!');
+            });
+        }
+        
+        // Project Board Exporter (demo version)
+        async function fetchBoardData() {
+            const url = document.getElementById('board-url').value;
+            if (!url.includes('github.com')) {
+                showToast('Please enter a valid GitHub URL', 'error');
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('csv-output').innerHTML = '';
+            
+            // Simulate API delay
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                
+                // Demo data - in production you'd use the GitHub API
+                const demoCSV = `Title,Status,Assignee,Labels\n"Fix login page UI","In Progress","dev1","bug,ui"\n"Update documentation","Done","tech-writer","docs"\n"Implement search API","Review","dev2","feature"`;
+                
+                document.getElementById('csv-output').innerHTML = `
+                    <div class="output-container">
+                        <label>Generated CSV (sample data):</label>
+                        <pre>${demoCSV}</pre>
+                        <button class="copy-btn secondary" onclick="copyToClipboard('csv-data')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy CSV
+                        </button>
+                    </div>
+                    <button onclick="downloadCSV()" style="margin-top: 1rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download CSV
+                    </button>
+                    <div id="csv-data" style="display: none;">${demoCSV}</div>
+                `;
+                
+                showToast('Data fetched successfully!');
+            }, 1500);
+        }
+        
+        function downloadCSV() {
+            // In a real implementation, this would create a downloadable file
+            showToast('In production, this would download the CSV', 'info');
+        }
+        
+        // Toast notification system
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            
+            // Set color based on type
+            if (type === 'error') {
+                toast.style.background = '#ef4444';
+            } else if (type === 'info') {
+                toast.style.background = '#3b82f6';
+            } else {
+                toast.style.background = '#10b981';
+            }
+            
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+        
+        // Initialize tab indicator position
+        window.addEventListener('DOMContentLoaded', () => {
+            const firstTab = document.querySelector('.tab.active');
+            if (firstTab) {
+                const tabRect = firstTab.getBoundingClientRect();
+                const containerRect = document.querySelector('.tabs-container').getBoundingClientRect();
+                document.querySelector('.tab-indicator').style.left = `${tabRect.left - containerRect.left}px`;
+            }
+        });
+    </script>
+</body>
+</html>
